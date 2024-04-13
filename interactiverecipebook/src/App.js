@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
+import Recipe from './Recipe'; 
+import RecipeDropdown from './recipeDropdown';
 
-// Main App component
-const App = () => {
-  // Define recipe data
+
+
+  // Different individuaol recipes
   const pizzaRecipe = {
     name: 'Homemade Pizza',
     ingredients: [
@@ -52,23 +54,27 @@ const App = () => {
     dietaryRestrictions: 'contains milk'
   };
 
-  const Recipe = ({ recipe }) => {
-    return (
-      <div className="recipe">
-        <h3>{recipe.name}</h3>
-        <p><strong>Ingredients:</strong></p>
-        <ul>
-          {recipe.ingredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul>
-        <p><strong>Cook Time:</strong> {recipe.cookTime}</p>
-        <p><strong>Dietary Restrictions:</strong> {recipe.dietaryRestrictions}</p>
-        {/* Add more details about the recipe as needed */}
-      </div>
-    );
+//App component
+const App = () => {
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  const handleSelectRecipe = (recipeName) => {
+    const recipe = recipes.find(recipe => recipe.name === recipeName);
+    setSelectedRecipe(recipe);
   };
-}
+
+  const recipes = [pizzaRecipe, chickenKormaRecipe, omelleteRecipe];
+  
+  return (
+    <div>
+      <h1>Recipe Book</h1>
+      {/* Render the RecipeDropdown component and pass the recipes array and onSelectRecipe function */}
+      <RecipeDropdown recipes={recipes} onSelectRecipe={handleSelectRecipe} />
+      {/* Render the Recipe component with the selected recipe details */}
+      {selectedRecipe && <Recipe recipe={selectedRecipe} />}
+    </div>
+  );
+};
 
 
 export default App;
