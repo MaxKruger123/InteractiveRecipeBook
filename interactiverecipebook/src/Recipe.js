@@ -1,23 +1,33 @@
 import React from 'react';
 
+const Recipe = ({ recipe, onToggleFavorite }) => {
+  const { name, ingredients, cookTime, dietaryRestrictions, favorite } = recipe;
 
-
-const Recipe = ({ recipe }) => { //This functrion simply displays an individual recipes depending on what is chosen by the user
-    return (
-      <div className="recipe">
-        <h3>{recipe.name}</h3>
-        <p><strong>Ingredients:</strong></p>
-        <ul>
-          {recipe.ingredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul>
-        <p><strong>Time to Cook:</strong> {recipe.cookTime}</p>
-        <p><strong>Dietary Restrictions:</strong> {recipe.dietaryRestrictions}</p>
-        
-      </div>
-    );
+  const handleFavoriteChange = () => {
+    onToggleFavorite(name);
   };
- 
 
-  export default Recipe;
+  return (
+    <div className="recipe" style={{ border: '1px solid black', padding: '10px', marginBottom: '10px' }}>
+      <h2>{name}</h2>
+      <p>Cook Time: {cookTime}</p>
+      <p>Dietary Restrictions: {dietaryRestrictions}</p>
+      <p>Ingredients:</p>
+      <ul>
+        {ingredients.map((ingredient, index) => (
+          <li key={index}>{ingredient}</li>
+        ))}
+      </ul>
+      <label>
+        <input
+          type="checkbox"
+          checked={favorite}
+          onChange={handleFavoriteChange}
+        />
+        Favorite
+      </label>
+    </div>
+  );
+};
+
+export default Recipe;
