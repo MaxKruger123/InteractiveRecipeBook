@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Recipe from './Recipe';
 import RecipeDropdown from './recipeDropdown';
 
-// Define individual recipes
+// Define individual recipes as an array
 const pizzaRecipe = {
   name: 'Homemade Pizza',
   ingredients: ['Cheese', 'Flour', 'Instant yeast', 'Origanum', 'Italian herbs', 'Water', 'Salt', 'Sugar'],
@@ -27,6 +27,7 @@ const omelleteRecipe = {
   favorite: false,
 };
 
+//define states of all necessary features for the interactive recipe book
 const App = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
@@ -54,13 +55,14 @@ const App = () => {
     setSearchedRecipes(filtered);
   }, [recipes, searchQuery, selectedDietaryRestrictions, showAllFavorites]);
 
+//handles functionality of the select recipe dropdown list where users can select an individual recipe to display.
   const handleSelectRecipe = recipeName => {
     const recipe = recipes.find(recipe => recipe.name === recipeName);
     setSelectedRecipe(recipe);
     setSearchQuery(''); // Clear the search query when a recipe is selected
     setShowAllRecipes(false);
   };
-
+//handles functionality for ShowAllRecipes checkbox that when checked will show all of the recipes in the book.
   const handleShowAllRecipesChange = event => {
     setShowAllRecipes(event.target.checked);
     setSelectedRecipe(null); // Reset selected recipe to null when show all recipes checkbox is changed
@@ -69,15 +71,18 @@ const App = () => {
     }
   };
 
+  //handles functionality of showAllFavourites checkbox where when checked shows all of the recipes favourited by the user.
   const handleShowAllFavoritesChange = event => {
     setShowAllFavorites(event.target.checked);
     setSelectedRecipe(null); // Reset selected recipe to null when show all favorites checkbox is changed
   };
 
+  //Updates state for when user wants to use the filted function
   const handleShowFilter = () => {
     setShowFilter(prevState => !prevState);
   };
 
+  // handles functionality for when user filters by dietary restrictions.
   const handleDietaryRestrictionChange = restriction => {
     if (selectedDietaryRestrictions.includes(restriction)) {
       setSelectedDietaryRestrictions(selectedDietaryRestrictions.filter(item => item !== restriction));
@@ -99,6 +104,7 @@ const App = () => {
     setSearchQuery('');
   };
 
+  //handles the toggling of favourite for each recipe and updates the recipes state.
   const handleToggleFavorite = recipeName => {
     const updatedRecipes = recipes.map(recipe => {
       if (recipe.name === recipeName) {
@@ -109,6 +115,7 @@ const App = () => {
     setRecipes(updatedRecipes);
   };
 
+  //block of JSX represents the main user interface of the website
   return (
     <div className="container">
       <h1>Recipe Book</h1>
